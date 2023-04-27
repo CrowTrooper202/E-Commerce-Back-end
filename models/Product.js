@@ -16,11 +16,11 @@ Product.init(
       autoIncrement: true,
     },
     product_name: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     price: {
-      type: DataTypes.decimal,
+      type: DataTypes.DECIMAL,
       allowNull: false,
       validate: {
         isDecimal: true
@@ -29,9 +29,7 @@ Product.init(
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      set(value) {
-        this.setDataValue('stock', 10)
-      },
+      defaultValue: 10,
       validate: {
         isNumeric: true
       }
