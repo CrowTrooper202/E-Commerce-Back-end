@@ -22,7 +22,6 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
   try {
     const categoryData = await Category.findByPk(req.params.id, {
-      // JOIN with travellers, using the Trip through table
       include: [{ model: Product, through: Tag, as: 'producttag' }]
     });
 
@@ -42,25 +41,28 @@ router.post('/', async (req, res) => {
   // create a new category
 
   try {
-    const categoryData = await Category.create(req.body);
+    await Category.create({
+      category_name: req.body.category_name,
+    });
     res.status(200).json(categoryData);
   } catch (err) {
     res.status(400).json(err);
   }
 
+
+
 });
 
 router.put('/:id', async (req, res) => {
-  // update a category by its `id` value
-const updateCategory = await Category.update({
-  category_name: req.body.category_name,
-},
-{
-  where: {
-    id: req.params.id
+  const updateCategory = await Category.update({
+    category_name: req.body.category_name,
   },
-})
-  
+    {
+      where: {
+        id: req.params.id
+      },
+    })
+  res.json(updateCategory)
 });
 
 router.delete('/:id', async (req, res) => {
